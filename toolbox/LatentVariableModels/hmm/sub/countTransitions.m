@@ -17,7 +17,9 @@ end
 A = zeros(nstates, nstates); 
 for i=1:numel(data)
    obs = colvec(data{i}); 
-   A = A + accumarray([obs(1:end-1), obs(2:end)], 1, [nstates, nstates]); 
+   if numel(obs) > 1
+       A = A + accumarray([obs(1:end-1), obs(2:end)], 1, [nstates, nstates]);
+   end
 end
 
 

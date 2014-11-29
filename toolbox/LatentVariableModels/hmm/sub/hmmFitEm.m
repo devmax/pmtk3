@@ -269,8 +269,18 @@ if isempty(model.A) || isempty(model.pi)
     [~,z] = max(pz,[],2);
     z = colvec(z);
     if isempty(model.A)
-        A       = accumarray([z(1:end-1), z(2:end)], 1, [nstates, nstates]); % count transitions
+        % count the transitions seen in the data
+        
+        % Find the length of each patient's obs. sequence
+        counts = cellfun(@(seq)size(seq, 2), data');
+        % Divide up the hidden states for each patient
+        zcell = mat2cell(z, counts);
+        A = countTransitions(zcell, nstates);
         model.A = normalize(A + ones(size(A)), 2);       % regularize
+        % this method also counts transitions across patients, which
+        % doesn't make sense
+        %A       = accumarray([z(1:end-1), z(2:end)], 1, [nstates, nstates]); % count transitions
+        
     end
     if isempty(model.pi)
         % seqidx(1:end-1) are the start indices of the sequences
