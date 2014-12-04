@@ -55,6 +55,7 @@ switch lower(localCPD.cpdType)
         XobsT   = Xobs';
         for k=1:nmix
             logP(k, observed) = gaussLogprob(mu(:, k), Sigma(:, :, k), XobsT);
+            %logP(k, observed) = mvnpdf(XobsT, mu(:, k)', Sigma(:, :, k))';
         end
         logB = nan(nstates, seqlen);
         for j = 1:nstates

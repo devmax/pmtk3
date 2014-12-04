@@ -72,7 +72,7 @@ for i=1:nobs
     transCounts                = transCounts + xiSummed;
     weights(ndx, :)            = weights(ndx, :) + gamma';
 end
-loglik   = loglik + sum(scale); 
+loglik   = loglik + sum(scale);
 %logprior = log(A(:)+eps)'*(model.transPrior(:)-1) + log(pi(:)+eps)'*(model.piPrior(:)-1);
 logprior = log(A(:)+eps)'*(model.transPrior(:)) + log(pi(:)+eps)'*(model.piPrior(:));
 loglik   = loglik + logprior;
@@ -277,6 +277,9 @@ if isempty(model.A) || isempty(model.pi)
         zcell = mat2cell(z, counts);
         A = countTransitions(zcell, nstates);
         model.A = normalize(A + ones(size(A)), 2);       % regularize
+        
+        %disp('Making model left to right only')
+        %model.A = mkLeftToRight(model.A);
         % this method also counts transitions across patients, which
         % doesn't make sense
         %A       = accumarray([z(1:end-1), z(2:end)], 1, [nstates, nstates]); % count transitions
