@@ -1,4 +1,4 @@
-function path = viterbi_path(prior, transmat, obslik)
+function [path, delta] = viterbi_path(prior, transmat, obslik)
 % VITERBI Find the most-probable (Viterbi) path through the HMM state trellis.
 % path = viterbi(prior, transmat, obslik)
 %
