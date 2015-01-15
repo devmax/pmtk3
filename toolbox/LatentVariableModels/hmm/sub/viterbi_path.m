@@ -69,7 +69,7 @@ else
 
 end
 
-[p, path(T)] = max(delta(:,T));
+[~, path(T)] = max(delta(:,T));
 for t=T-1:-1:1
   path(t) = psi(path(t+1),t+1);
 end
@@ -78,11 +78,12 @@ end
 % If scaled==1, p = Pr(replace sum with max and proceed as in the scaled forwards algo)
 % Both are different from p(data) as computed using the sum-product (forwards) algorithm
 
-if 0
-if scaled
-  loglik = -sum(log(scale));
-  %loglik = prob_path(prior, transmat, obslik, path);
-else
-  loglik = log(p);
-end
+% if 0
+%     if scaled
+%         loglik = -sum(log(scale));
+%         %loglik = prob_path(prior, transmat, obslik, path);
+%     else
+%         loglik = log(p);
+%     end
+% end
 end
